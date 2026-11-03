@@ -1,85 +1,100 @@
 /*
+Here the Helpers class is implemented. It holds a few useful functions for managing strings.
+
 - Original Author: D'Antae Leathers
 */
 
 #include "../include/Helpers.h"
 #include <string>
-#include <sstream>
-#include <cctype> // tolower
+#include <vector>
+#include <cctype> // tolower, toupper
+#include <algorithm>
 
-vector<string> Helpers::splitLine(const string& line, char delimiter) { // Just splits the line of text by the delimiter, in this case it should always be "|"
+vector<string> Helpers::splitLine(const string& line, char delimiter) { // Splits the line of text by the delimiter, e.g. "|"
     vector<string> parts;
-    stringstream ss(line);
     string part;
 
-    while (getline(ss, part, delimiter)) {
-        parts.push_back(part);
+    for (char c  : line){
+        // If the character is the delimiter, push the current part to the vector and clear it for the next part
+        if (c == delimiter) {parts.push_back(trimWhitespace(part)); part.clear();} // Trim whitespace from the part
+         // Otherwise, add the character to the current part
+        else {part += c;}
     }
 
-    return parts;
+    parts.push_back(trimWhitespace(part)); // Always push the last part to the vector
+    return parts; // Return the vector of parts. Each element is a field from the line.
 }
 
-string Helpers::toLower(const string& s) const {
-    string result = s;
-    transform(result.begin(), result.end(), result.begin(), [](char c){return tolower(c);});
-    return result;
-}
+size_t Helpers::findFirstNotOf(const string& str, const string& chars, size_t pos) {
+    if (pos >= str.length()){ return string::npos; } // If the starting position is at the end or out of bounds, return npos
 
-string Helpers::checkDate(const string& date) const {
-    //Check that the date is in the correct format e.g. 09/23/2026 (MM/DD/YYYY)
-    const string formatError = "Date must be in the format MM/DD/YYYY."; // Return this if date is invalid
+    for (size_t i = pos; i < str.length(); ++i) { // Iterate through the string starting from the given position
+        char currentChar = str[i];
+        bool found = false;
 
-    if (date.length() != 10 || date[2] != '/' || date[5] != '/') { return formatError;} // Not long enough to be a date, '/' are in the wrong spots
-
-    for(int i = 0; i < 10; i++){ // Check each character in the date string individually
-        if (i == 2 || i == 5) {continue;} // skip over '/'
-        if (date[i] < '0' || date[i] > '9') { return formatError;} // Not a digit
-    }
-
-    // Extract and isolate values to check for valid months, days, and year values
-    // Subtracting '0' from a character results in subtracting its ASCII value,
-    // for numeric characters this works to convert them from string to their actual integer value without having to cast them as int.
-    int month = (date[0] - '0') * 10 + (date[1] - '0');
-    int day = (date [3] - '0') * 10 + (date[4] - '0');
-    int year = (date[6] - '0') * 1000 + (date[7] - '0') * 100 + (date[8] - '0') * 10 + (date[9] - '0');
-
-    if (month < 1 || month > 12) {return "Invalid month."; } // Month is not within the bound of 1 to 12
-    if (year < 1) {return "Invalid year";} // Year is 0 or less
-
-    int maxDay;
-    if (month == 2) { // Check February (2nd month) for special cases since it does not have a similar amount of days to other months
-        bool leap = (year % 4 == 0 && year % 100 !=0) || (year % 400 == 0); // Check if leap year, if so 02/29/YYYY would be valid, otherwise it must be 02/28/YYYY
-        maxDay = leap ? 29 : 28;
-    } else if (month == 4 || month == 6 || month == 9 || month == 11) { // All the months with 30 days.
-        maxDay = 30;
-    } else { // If not Februray, or a month with 30 days, then it must be a month with 31 days.
-        maxDay = 31;
-    }
-
-    if (day < 1 || day > maxDay) {return "Invalid day.";} // Day is negative or too much for the given month.
-
-    return "";
-}
-
-bool Helpers::containsSubstring(const string& text, const string& substring) const { // Returns true if 'substring' appears anywhere inside 'text'
-    if (substring.empty()) {return true;}   // An empty substring would match everything, so treat it as a match
-    if (substring.size() > text.size()) {return false;}     // A substring longer than the text can never fit inside it
-
-    // Convert both strings to lowercase for case-insensitive comparison
-    string lowtext = toLower(text);
-    string lowsubstring = toLower(substring);
-
-    // Go through the text manually
-    for(int i = 0; i <= text.length() - substring.length(); i++) { // Loop through the text, stopping when there isn't enough room left for the substring
-        bool match = true;
-        for(int j = 0; j < substring.length(); j++) { // Loop through the substring
-            if(lowtext[i + j] != lowsubstring[j]) { // If any character doesn't match, break out of the loop
-                match = false;
+        for (char c : chars) {
+            if (currentChar == c) { // If the current character is in the set of characters to ignore, mark it as found and break
+                found = true;
                 break;
             }
         }
-        if (match) {return true;} // Found the substring, return true
+
+        if (!found) {return i;} // If the current character is not in the set of chars, return its index
     }
 
-    return false; // Could not find the substring anywhere in the text
+    return string::npos; // If no character was found that is not in the set of chars, return npos
+}
+
+size_t Helpers::findLastNotOf(const string& str, const string& chars) {
+    for (size_t i = str.length() - 1; i < str.length(); --i) {
+        // i < str.length() stops the loop after i becomes negative. This happens because size_t is unsigned, so when it goes below 0, it wraps around to a very large number.
+        char currentChar = str[i];
+        bool found = false;
+
+        for (char c : chars) {
+            if (currentChar == c) { // If the current character is in the set of characters to ignore, mark it as found and break
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {return i;} // If the current character is not in the set of chars, return its index
+    }
+
+    return string::npos; // If no character was found that is not in the set of chars, return npos
+}
+
+string Helpers::trimWhitespace(const string &line) {
+    size_t start = findFirstNotOf(line, " \t\r\n"); // Find the first character that is not whitespace
+    size_t end = findLastNotOf(line, " \t\r\n"); // Find the last character that is not whitespace
+
+    if (start == string::npos || end == string::npos) {return "";}
+    // Return an empty string if the line is blank or only contains whitespace
+
+    return line.substr(start, end - start + 1); // Return the substring that is between the first and last non-whitespace characters
+}
+
+string Helpers::toLower(const string& s) {
+    string result = s;
+    transform(result.begin(), result.end(), result.begin(), [](char c){return tolower(c);}); // Use a lambda function to convert each character to lowercase
+    return result;
+}
+
+string Helpers::toUpper(const string& s) {
+    string result = s;
+    transform(result.begin(), result.end(), result.begin(), [](char c){return toupper(c);}); // Use a lambda function to convert each character to uppercase
+    return result;
+}
+
+bool Helpers::equalsIgnoreCase(const string& a, const string& b) {
+    // Trim whitespace and convert to uppercase for comparison
+    string left = toUpper(trimWhitespace(a));
+    string right = toUpper(trimWhitespace(b));
+
+    return left == right; // Compare
+}
+
+bool Helpers::isBlankOrComment(const string& line) {
+    string trimmedLine = trimWhitespace(line); // Trim whitespace from the line before checking.
+    return trimmedLine.empty() || trimmedLine[0] == '#'; // Check if the line is empty or starts with a comment character.
 }
