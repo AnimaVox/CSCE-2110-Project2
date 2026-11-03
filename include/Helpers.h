@@ -7,6 +7,9 @@ This class is responsible for holding some useful functions for managing strings
 #ifndef HELPERS_H
 #define HELPERS_H
 
+#include <string>
+#include <vector>
+
 using namespace std;
 
 class Helpers {

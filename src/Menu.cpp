@@ -5,11 +5,10 @@
 #include "../include/Menu.h"
 #include "../include/Helpers.h"
 #include <iostream>
-#include <string>
 #include <vector>
 #include <stdexcept>
 
-static const bool FINAL_MILESTONE = true; // Set to true for final milestone, false for milestone one. Decides which menu is used.
+static const bool FINAL_MILESTONE = false; // Set to true for final milestone, false for milestone one. Decides which menu is used.
 
 struct MenuOpt{ // Simple struct to hold menu options. Can be used to make different menus as needed.
     int number;
@@ -71,13 +70,18 @@ InputStatus Menu::readInt(const string& prompt, int& value) {
     
     try { // Try to parse the input as an integer. If it fails, return INVALID.
         size_t pos = 0;
-        int parsed = stoi(input, &pos);
-        if (pos != input.size()) {return InputStatus::INVALID;}
+        int parsed = stoi(input, &pos); 
+        // Tries to convert the input string to an int. pos becomes the index of the first NON-CONVERTED character.
+        // If every character was converted, pos will be the last character index + 1, which is the size of the string.
+
+        if (pos != input.size()) {return InputStatus::INVALID;} 
+        // If pos is not equal to the size of the string, then a character was left unconverted i.e not a valid int.
+
         value = parsed;
         return InputStatus::OK; // Valid input, return OK.
     } 
     catch (const invalid_argument&) {return InputStatus::INVALID;} // If the input is not a valid integer, return INVALID.
-    catch (const out_of_range&) {return InputStatus::INVALID;} // If the input is out of range for an integer, return INVALID.
+    catch (const out_of_range&) {return InputStatus::INVALID;} // If input is out of range (too large for an int), return INVALID.
 }
 
 MenuOptions Menu::readMenuChoice() { // Reads the user's menu choice and returns the corresponding MenuOptions enum value
@@ -85,6 +89,7 @@ MenuOptions Menu::readMenuChoice() { // Reads the user's menu choice and returns
     
     int choice;
     InputStatus status = readInt("Enter your choice: ", choice); // Prompt the user for their choice and read it as an integer
+    cout << endl;
 
     if (status == InputStatus::END_OF_FILE) {return MenuOptions::EXIT;} // If the input has reached EOF, return EXIT.
     if (status == InputStatus::INVALID) { // If the input is invalid, print an error message and return INVALID.
@@ -105,7 +110,7 @@ MenuOptions Menu::readMenuChoice() { // Reads the user's menu choice and returns
 }
 
 void Menu::printError(const string& error) { // Prints an error notice. Used to standardize error messages.
-    cout << "Error: " << error << endl;
+    cout << "<!> Error: " << error << "  <!>" << "\n" << endl;
 }
 
 void Menu::printMenu() { // Displays the menu options
@@ -115,6 +120,8 @@ void Menu::printMenu() { // Displays the menu options
         cout << opt.number << ". " << opt.label << endl;
     }
     cout << "0. Exit" << endl; // Always display the exit option.
+
+    printSeparator(); // Print a separator line for clarity.
 }
     
 void Menu::printHeader(const string& title) { // Prints a header with the given title.

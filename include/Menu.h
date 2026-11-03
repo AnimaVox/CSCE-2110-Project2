@@ -6,6 +6,8 @@ This class holds the input and display logic for the program menu.
 #ifndef MENU_H
 #define MENU_H
 
+#include <string>
+
 using namespace std;
 
 enum class MenuOptions { // Enum of all the possible menu options. Used for readibility.
