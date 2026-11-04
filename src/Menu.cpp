@@ -1,4 +1,5 @@
 /*
+Here the Menu class is implemented. Fucntions here handle reading user input and prompting them with menu options. User input is validated and an error is returned when necessary. Additionally, there are fucntions to easily print headers and seperator for menu readability.
 - Original Author: D'Antae Leathers
 */
 
@@ -89,7 +90,6 @@ MenuOptions Menu::readMenuChoice() { // Reads the user's menu choice and returns
     
     int choice;
     InputStatus status = readInt("Enter your choice: ", choice); // Prompt the user for their choice and read it as an integer
-    cout << endl;
 
     if (status == InputStatus::END_OF_FILE) {return MenuOptions::EXIT;} // If the input has reached EOF, return EXIT.
     if (status == InputStatus::INVALID) { // If the input is invalid, print an error message and return INVALID.
@@ -110,7 +110,7 @@ MenuOptions Menu::readMenuChoice() { // Reads the user's menu choice and returns
 }
 
 void Menu::printError(const string& error) { // Prints an error notice. Used to standardize error messages.
-    cout << "<!> Error: " << error << "  <!>" << "\n" << endl;
+    cout << "<!> Error: " << error << "  <!>" << endl;
 }
 
 void Menu::printMenu() { // Displays the menu options

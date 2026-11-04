@@ -1,6 +1,5 @@
 /*
 This class is responsible for holding some useful functions for managing strings.Since these functions are used by almost every module, they are hosted here so they only need to be implemented once and then can be used by all.
-
 - Original Author: D'Antae Leathers
 */
 

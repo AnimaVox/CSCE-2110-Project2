@@ -1,6 +1,5 @@
 /*
 Here the Helpers class is implemented. It holds a few useful functions for managing strings.
-
 - Original Author: D'Antae Leathers
 */
 
