@@ -1,0 +1,57 @@
+<!!!> YOU ARE RUNNING THE TEST FILE: HashTableTEST. <!!!> 
+
+Test 1a | Insert valid ID [F004]: true (expected true) -> PASS
+Test 1b | Find valid ID provided as 'f004' (lowercase): true (expected true) -> PASS
+Test 1c | Find valid ID provided with whitespace '   f004   ': true (expected true) -> PASS
+Test 1d | Contains valid ID [F004]: true (expected true) -> PASS
+
+Initial Entries: 1
+Initial Collisions: 0
+------------------------------
+Test 2a | Duplicate insert rejected: false (expected false) -> PASS
+Test 2b | Duplicate IDs that differ only by capitalization are rejected: false (expected false) -> PASS
+Test 2c | Original entry left untouched after rejected duplicate: true (expected true) -> PASS
+Test 2d | Entry count unchanged: true (expected true) -> PASS
+Test 2e | Collision count unchanged: true (expected true) -> PASS
+
+Test 3 | Not-found ID [F999]: false (expected false) -> PASS
+
+Created a new facility with ID: 'f005' and inserted into the hash table
+------------------------------
+Test 4 | Stored ID is normalized: true (expected true) -> PASS
+
+Test 5 | Creating a hash table with a capacity of 0 defaults to default capacity (11): true (expected true) -> PASS
+
+------------------------------
+Listing the index of the keys F001 to F020
+F001 -> 3
+F002 -> 4
+F003 -> 5
+F004 -> 6
+F005 -> 7
+F006 -> 8
+F007 -> 9
+F008 -> 10
+F009 -> 0
+F010 -> 0
+F011 -> 1
+F012 -> 2
+F013 -> 3
+F014 -> 4
+F015 -> 5
+F016 -> 6
+F017 -> 7
+F018 -> 8
+F019 -> 9
+F020 -> 9
+Inserting two IDs with the same index into the original hash table. It still contains keys [F004] and [F005]
+------------------------------
+
+Test 6a | Collisions are properly handled: true (expected true) -> PASS
+Attempted to insert [F010] again.
+Test 6b | Duplicate collisions are not counted: true (expected true) -> PASS
+Test 6c | Both colliding IDs are retrievable: true (expected true) -> PASS
+Test 6d | Entry count is 4: true (expected true) -> PASS
+
+Capacity: 11, Entries: 4, Collisions: 1
+Total Tests: 16	 Tests Passed: 16

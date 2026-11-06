@@ -1,0 +1,105 @@
+M1 tests
+
+--------------------------------
+File Loading
+--------------------------------
+- Valid records, blank lines, comment lines, and records with too few or too many fields.
+- A missing file
+- Duplicate building names that differ only by capitalization, and duplicate facility IDs that differ only by capitalization.
+- Unknown building references (in connections and facilities), duplicate and reversed connections, and unknown department parents.
+
+--------------------------------
+Hash Table and Search
+--------------------------------
+- Successful, lowercase, invalid-format, and not-found ID searches.
+>> Full test results shown in hashtable_output.txt
+Test #:         1b  
+Description:    Successful lowercase ID search
+Input:          f004
+Expected:       true
+Actual:         true 
+Pass/Fail:      PASS
+
+Test #:         1c  
+Description:    Successful invalid-format ID search
+Input:          "   f004   "
+Expected:       true
+Actual:         true  
+Pass/Fail:      PASS
+
+Test #:         3  
+Description:    Successful not-found ID search
+Input:          "F999"
+Expected:       false
+Actual:         false 
+Pass/Fail:      PASS
+
+- At least on hash collision, using your own collision test data directiory and HASH-7 diagnostic, and a duplicate-key insertion attempt (confirming that it does not change the collision count).
+
+--------------------------------
+Graph and BFS
+--------------------------------
+- BFS from a connected building and from an isolated building: BFS with an unknown start; a graph with multiple connected components.
+
+--------------------------------
+Tree, Reports, and Menu
+--------------------------------
+- Empty tree (adding the root without a parent prompt), root-only tree, searches for the root, a non-root, and a missing department, adding with an unknown parent, adding a duplicate, and preorder traversal.
+
+
+- Invalid menu input, text at numeric prompts, names containing spaces, blank names, and repeated operations after errors.
+Test #:         1  
+Description:    Letters at menu
+Input:          abc
+Expected:       "<!> Error: Invalid input. Please enter a number.  <!>"
+Actual:         "<!> Error: Invalid input. Please enter a number.  <!>"  
+Pass/Fail:      PASS
+
+Test #:         2
+Description:    Trailing text
+Input:          3abc
+Expected:       "<!> Error: Invalid input. Please enter a number.  <!>"
+Actual:         "<!> Error: Invalid input. Please enter a number.  <!>"  
+Pass/Fail:      PASS
+
+Test #:         3
+Description:    Out of range
+Input:          99
+Expected:       "<!> Error: Invalid choice. Please enter a number between 0 and 9 <!>"
+Actual:         "<!> Error: Invalid choice. Please enter a number between 0 and 9 <!>"
+Pass/Fail:      PASS
+
+Test #:         4
+Description:    Name containig spaces
+Input:          
+Expected:       
+Actual:         
+Pass/Fail:      
+
+Test #:         5
+Description:    Blank name
+Input:          
+Expected:       
+Actual:         
+Pass/Fail:      
+
+Test #:         6
+Description:    Valid choice
+Input:          5
+Expected:       perform option 5. Find reachable buildings (BFS)
+Actual:         option 5. Find reachable buildings (BFS) is performed
+Pass/Fail:      PASS
+
+Test #:         7
+Description:    Exit
+Input:          0
+Expected:       The program will exit
+Actual:         The program exits
+Pass/Fail:      PASS
+
+Test #:         8
+Description:    End of file
+Input:          EOF
+Expected:       The program will exit
+Actual:         The program exits
+Pass/Fail:      PASS
