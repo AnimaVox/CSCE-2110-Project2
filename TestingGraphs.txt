@@ -1,0 +1,79 @@
+Test #:      1
+Description: Loading connections and buildings
+Input:       # BuildingA|BuildingB
+             Library|Student Union
+             Library|Business Building
+             Student Union|Science Building
+             Student Union|Gym
+             Science Building|Engineering Building
+             Business Building|Gym
+             # BuildingName
+             Library
+             Student Union
+             Science Building
+             Engineering Building
+             Business Building
+             Gym
+             Observatory
+Expected:    Loaded 7 buildings and 6 connections.
+Actual:      Loaded 7 buildings and 6 connections.
+Pass/Fail:   PASS
+
+Test #:      2
+Description: Degree of each building
+Input:       # BuildingA|BuildingB
+             Library|Student Union
+             Library|Business Building
+             Student Union|Science Building
+             Student Union|Gym
+             Science Building|Engineering Building
+             Business Building|Gym
+             # BuildingName
+             Library
+             Student Union
+             Science Building
+             Engineering Building
+             Business Building
+             Gym
+             Observatory
+Expected:    Library: 2, Student Union: 3, Science Building: 2, Engineering Building: 1, 
+             Business Building: 2, Gym: 2, Observatory: 0
+Actual:      Library: 2, Student Union: 3, Science Building: 2, Engineering Building: 1, 
+             Business Building: 2, Gym: 2, Observatory: 0
+Pass/Fail:   PASS
+
+Test #:      3
+Description: BFS cases
+Input:       Observatory
+Expected:    Starting building: observatory
+             BFS from Observatory/Distance from Building
+             0  Observatory
+             Reachable: 1 of 7 buildings
+Actual:      Starting building: observatory
+             BFS from Observatory/Distance from Building
+             0  Observatory
+             Reachable: 1 of 7 buildings
+Pass/Fail:   PASS
+
+Test #:      4
+Description: BFS cases
+Input:       Science Building
+Expected:    Starting building: Science Building
+             BFS from Science Building/Distance from Building
+             0  Science Building
+             1  Student Union
+             1  Engineering Building
+             2  Library
+             2  Gym
+             3  Business Building
+             Reachable: 6 of 7 buildings
+Actual:      Starting building: science building
+             BFS from Science Building/Distance from Building
+             0  Science Building
+             1  Student Union
+             1  Engineering Building
+             2  Library
+             2  Gym
+             3  Business Building
+             Reachable: 6 of 7 buildings
+Pass/Fail:   PASS
