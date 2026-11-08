@@ -1,5 +1,6 @@
 /*
-This is a file purely for demonstating and testing the hash table implementation. Don't complie this with main.cpp. Use the Makefile to easily handle swapping main.cpp with this file for testing.
+This is a file purely for demonstating and testing the hash table implementation. 
+Don't complie this with main.cpp. Use the Makefile to easily handle swapping main.cpp with this file for testing.
 */
 
 #include "../include/HashTable.h"
@@ -10,6 +11,11 @@ using namespace std;
 
 int passes = 0;
 int tests = 0;
+
+// Prints out a given name/description for a test, then returns Pass(true)/Fail(false) 
+// if both the expected result and the actual result are the same.
+// e.g. insert() should return true if it successfully adds a valid ID to the hash table (expected), and false for an invald ID (expected). 
+// Calling insert() with valid ID will return true (actual), but using invalid ID will return false (actual)
 
 void check(const string& name, bool actual, bool expected) {
     cout << name << ": " << (actual ? "true" : "false")

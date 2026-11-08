@@ -1,0 +1,104 @@
+<!!!> YOU ARE RUNNING THE TEST FILE: FacilityManager. <!!!> 
+
+Test 1a | Insert a valid Facility: true (expected true) -> PASS
+        | Added to facility count: 1 (expected 1) -> PASS
+Test 1b | Lowercase ID is stored uppercase: true (expected true) -> PASS
+
+Test 2a | Exact Duplicate ID rejected: false (expected false) -> PASS
+Test 2b | Duplicate ID differing only by case (f001) rejected: false (expected false) -> PASS
+Test 2c | Original is untouched: true (expected true) -> PASS
+
+Test 3a | Empty ID is rejected: false (expected false) -> PASS
+Test 3b | Empty Name is rejected: false (expected false) -> PASS
+Test 3c | Empty Building is rejected: false (expected false) -> PASS
+Test 3d | Empty Category is rejected: false (expected false) -> PASS
+
+Test 4a | Invalid ID is rejected (004): false (expected false) -> PASS
+Test 4b | Invalid ID is rejected (F12): false (expected false) -> PASS
+Test 4c | Invalid ID is rejected (FABC): false (expected false) -> PASS
+Test 4d | Invalid ID is rejected (F1234): false (expected false) -> PASS
+Tests 3-4 | No rejected record was stored: 2 (expected 2) -> PASS
+
+Test 5a | Whitespace around fields trimmed ('   F003   '): true (expected true) -> PASS
+Test 5b | Store name trimmed: true (expected true) -> PASS
+Test 5c | Stored building trimmed: true (expected true) -> PASS
+
+Test 6a | Rejected duplicate (new category 'Kitchen') registers nothing: false (expected false) -> PASS
+        | Category count unchanged: 3 (expected 3) -> PASS
+Test 6b | Accept existing lowercase category: true (expected true) -> PASS
+        | Category count unchanged: 3 (expected 3) -> PASS
+
+--- displayAll (loaded) ---
+F001 | Main Reading Room | Library | Library
+F002 | Tutoring Center | Library | Tutoring Center
+F003 | Computer Lab A | Science Building | Computer Lab
+F004 | Computer Lab A | Science Building | computer lab
+Total Facilities: 4
+Expected -> Total Facilities: 4
+
+--- categoryReport (loaded) ---
+Category                  Count    Percent
+Library                       1      25.0%
+Tutoring Center               1      25.0%
+Computer Lab                  2      50.0%
+Total                         4     100.0%
+Expected -> Categories: Library, Tutoring Center, and Computer Lab
+
+--- displayAll (empty) ---
+There are no facilities loaded.
+Expected -> No facilities
+
+--- categoryReport (empty) ---
+There are no facilities available.
+Total facilities: 0
+Expected -> 0 facilities, no categories
+
+Test 7a | New manager is empty: true (expected true) -> PASS
+Test 7b | Not empty after an add: false (expected false) -> PASS
+
+Test 8a | First insert, no collision: 0 (expected 0) -> PASS
+Test 8b | Colliding insert counted: 1 (expected 1) -> PASS
+Test 8c | Rejected duplicate doesn't change count: 1 (expected 1) -> PASS
+Test 8d | Both entries retrievable: true (expected true) -> PASS
+
+--- searchByID F003 ---
+F003 | Computer Lab A | Science Building | Computer Lab
+Expected -> Find only Computer Lab A with ID F003
+
+--- searchByID f003 ---
+F003 | Computer Lab A | Science Building | Computer Lab
+Expected -> Find only Computer Lab A still with ID F003
+
+--- searchByID 004 ---
+An ID must be in the format: F###, where each # is a digit.
+Expected -> Invalid ID, fail
+
+--- searchByID F999 ---
+ID [F999] not found.
+Expected -> ID is not found, fail
+
+--- searchByName 'Computer Lab A' ---
+F003 | Computer Lab A | Science Building | Computer Lab
+F004 | Computer Lab A | Science Building | computer lab
+Matches: 2
+Expected -> 2 matches
+
+--- searchByName missing name ---
+No facilities found. Matches: 0
+Expected -> Nothing found.
+
+--- searchByName missing category ---
+No facilities found. Matches: 0
+Expected -> Nothing found.
+
+--- searchByCategory 'computer lab' ---
+F003 | Computer Lab A | Science Building | Computer Lab
+F004 | Computer Lab A | Science Building | computer lab
+Matches: 2
+Expected -> 2 matches.
+
+--- Hash Diagnostic ---
+Capacity: 11, Entries: 2, Collisions: 1
+Expected -> Capacity (default): 11 | 2 Entries | 1 Collision.
+
+Total Tests: 28	 Tests Passed: 28
