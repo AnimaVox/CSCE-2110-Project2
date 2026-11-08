@@ -2,8 +2,8 @@
 // Only reads from a Graph, never changes it.
 // Author: Michael Elsen
 
-#include "GraphDisplay.h"
-#include "Graph.h"
+#include "../include/GraphDisplay.h"
+#include "../include/Graph.h"
 #include <iomanip>
 #include <iostream>
 #include <vector>

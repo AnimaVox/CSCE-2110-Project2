@@ -2,7 +2,7 @@
 // looks them up, reports counts, and runs BFS.
 // Author: Michael Elsen
 
-#include "Graph.h"
+#include "../include/Graph.h"
 #include <queue>
 
 using namespace std;

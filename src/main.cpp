@@ -1,8 +1,8 @@
 // main.cpp — Loads the data files, then runs the menu
 // for displaying the graph, viewing statistics, and running BFS on any building.
-#include "FileInput.h"
-#include "Graph.h"
-#include "GraphDisplay.h"
+#include "../include/FileInput.h"
+#include "../include/Graph.h"
+#include "../include/GraphDisplay.h"
 #include <iostream>
 #include <string>
 

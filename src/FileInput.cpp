@@ -1,7 +1,7 @@
 // FileInput.cpp — Implements the loaders declared in FileInput.h. All file
 // reading for the graph part of the project is done here.
-#include "FileInput.h"
-#include "Graph.h"
+#include "../include/FileInput.h"
+#include "../include/Graph.h"
 #include <fstream>
 #include <iostream>
 #include <vector>
