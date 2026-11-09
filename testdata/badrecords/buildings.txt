@@ -1,0 +1,9 @@
+# Expected: 4 accepted, 2 rejected (case-duplicate, too many fields)
+Library
+Student Union
+library
+
+Gym
+Bad|Extra
+# a comment
+Observatory

@@ -1,2 +1,6 @@
 Contributions to File Loading and implementing Campus Graph and BFS Reachability
 and Shortest Path were coded and created by Michael Elsen
+
+Dean Foote - Department Tree, Traversals
+
+D'Antae Leathers : I am responsible for the implementation of Facility, FacilityManager, and HashTable classes. I also created the shared classes of Helpers and Menu. Contributed towards the FileLoader class. Handled merging and some debugging of the code from all members.

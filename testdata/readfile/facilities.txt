@@ -1,0 +1,3 @@
+# F|N|B|C
+F001|Main Reading Room|Library|Library
+F002|Gym Floor|Gym|Recreation

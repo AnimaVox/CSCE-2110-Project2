@@ -1,0 +1,8 @@
+# Expected: 2 accepted, 5 rejected (reversed dup, self, unknown, too few fields, empty field)
+Library|Student Union
+student union|library
+Library|Library
+Library|Nowhere
+Gym
+Library|
+Library|Gym

@@ -1,0 +1,13 @@
+I decided to store copies of Facility objects in both the Hash Table and the vector from FacilityManager. My reasoning for doing this was by using a vector I could easily retain insertion order, and the Hash Table is used mostly for fast lookup rather than order or space. However, this does mean that each facility exists twice, but since the Hash Table cooperates with the vector via FacilityManager at every point, the data is always validated and maintained.
+
+The hash formula is: h = h * 31 + c;
+with 'c' being each and every character of the key. This is a Multiplicative String Hash function, as described in HashTable.cpp
+I chose to use this hash function becuase:
+    1. All IDs are strings
+    2. Multiplying by a constant, fixes anagram weakness i.e. CAT != TAC
+31 was chosen as the multiplier because it is a odd-prime number. This means there are very few factors of it and hashes will be better distributed (less clustering).
+
+I defined a collision as any valid insertion into a bucket that contains at least one entry.
+By defualt the hash table has a capacity of 11. This is because 11 is reasonably small enough to easily handle, but still a prime number, which again helps minimize collisions.
+
+I chose to go with seperate-chaining as the method of collision handling because it avoided having to calculate a new index for the colliding element and would allow the hash table to 'grow' as more was added to it. Therefore, the hash table has an effectively dynamic size and will never have to block an element because of being full.

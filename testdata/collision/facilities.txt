@@ -1,0 +1,7 @@
+# FacilityID|FacilityName|BuildingName|Category
+# F009 and F010 hash to the same bucket at capacity 11 (HASH-7).
+F004|Computer Lab A|Science Building|Computer Lab
+F005|Room 101|Engineering Building|Classroom
+F009|Room 205|Science Building|Classroom
+F010|Research Help Desk|Library|Library
+f010|Duplicate of F010, must be rejected|Library|Library

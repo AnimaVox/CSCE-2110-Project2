@@ -1,0 +1,8 @@
+# Expected: 3 accepted (University, Engineering, Physics), 4 rejected
+University|NONE
+Engineering|University
+engineering|University
+Biology|Nowhere
+Math
+University2|NONE
+Physics|university

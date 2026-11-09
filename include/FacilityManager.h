@@ -21,8 +21,7 @@ class FacilityManager {
         vector<string> categories;
         HashTable idTable;
 
-        // Adds a new category to vector<>category. This vector is used to determine the currently valid categories.
-        // If you try to add a facility belonging to a category that is not in the vector it will be rejected. 
+        // Adds a new category to vector<>category. This vector is used to store the currently valid categories.
         void registerCategory(const string& category); 
 
     public:
@@ -35,7 +34,7 @@ class FacilityManager {
 
         // Displays the info for all facilities in the vector<>facilities and then the total count of facilities.
         void displayAll() const;
-        // Returns the facility matching the given input for the ID of a facility. Returns "No matches" if the name is not found.
+        // Returns the facility matching the given input for the ID of a facility. Prints "not found" if the name is not found.
         // Should only ever retrun one facility as IDs are unique and checked for duplicates before adding.
         void searchByID(const string& input) const;
         // Returns all facilities matching the given input for the name of a facility. Returns "No matches" if the name is not found.
@@ -43,7 +42,7 @@ class FacilityManager {
         // Returns all facilities matching the given input for the name of a category. Returns "No matches" if the category does not exist
         void searchByCategory(const string& input) const;
 
-        void categoryReport() const; // Returns each category and its % of the total number of categories
+        void categoryReport() const; // Returns each category and % of facilities per category
 
         // Helpers
         size_t getCount() const; // Returns the number of facilities in vector<>facilities

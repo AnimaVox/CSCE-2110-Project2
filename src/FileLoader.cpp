@@ -1,16 +1,16 @@
 /*
 Here are the operations for FileLoader are defined.
 - Original Author: D'Antae Leathers
+- Contributer: Dean Foote
 */
 
 #include "../include/FileLoader.h"
 #include "../include/FacilityManager.h"
-// #include "../include/Graph.h"
-// #include "../include/DepartmentTree.h"
+#include "../include/Graph.h"
+#include "../include/DepartmentTree.h"
 #include "../include/Helpers.h"
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 
 string FileLoader::buildPath(const string& dataDir, const string& filename) {
     if (dataDir.empty()) {return filename;}
@@ -30,48 +30,93 @@ void FileLoader::printLoadSummary(const string& filename, const LoadResult& r) {
     cout << filename << ": " << r.accepted << " accepted, " << r.rejected << " rejected" << endl;
 }
 
+
+LoadResult FileLoader::loadBuildings(const string& dir, Graph& graph) {
+    LoadResult r = processFile(dir, "buildings.txt", 1,
+        [&graph](const vector<string>& f, string& reason) {
+            return graph.addBuilding(f[0], reason);
+        });
+    printLoadSummary("buildings.txt", r);
+    return r;
+}
+
+LoadResult FileLoader::loadConnections(const string& dir, Graph& graph) {
+    LoadResult r = processFile(dir, "connections.txt", 2,
+        [&graph](const vector<string>& f, string& reason) {
+            return graph.addConnection(f[0], f[1], reason);
+        });
+    printLoadSummary("connections.txt", r);
+    return r;
+}
+
+LoadResult FileLoader::loadFacilities(const string& dir, const Graph& graph, FacilityManager& fm) {
+    LoadResult r = processFile(dir, "facilities.txt", 4,
+        [&graph, &fm](const vector<string>& f, string& reason) {
+            int i = graph.findBuilding(f[2]);
+            if (i == -1) { reason = "Unknown building: " + f[2]; return false; }
+            return fm.addFacility(f[0], f[1], graph.buildingName(i), f[3], reason);
+        });
+    printLoadSummary("facilities.txt", r);
+    fm.printHashDiagnostic();
+    return r;
+}
+
+LoadResult FileLoader::loadDepartments(const string& dir, DepartmentTree& tree) {
+    LoadResult r = processFile(dir, "departments.txt", 2,
+        [&tree](const vector<string>& f, string& reason) {
+            return tree.addDepartment(f[0], f[1], reason);
+        });
+    printLoadSummary("departments.txt", r);
+    return r;
+}
+
+void FileLoader::loadAll(const string& dir, Graph& g, FacilityManager& fm, DepartmentTree& t) {
+    loadBuildings(dir, g);
+    loadConnections(dir, g);
+    loadFacilities(dir, g, fm);
+    loadDepartments(dir, t);
+}
+
+
 LoadResult FileLoader::processFile(const string& dataDir, const string& filename, size_t expectedFields, const RecordHandler& handler) {
 
     LoadResult r;
-    string filePath = buildPath(dataDir, filename);
     
-    ifstream file(filePath);
+    ifstream file(buildPath(dataDir, filename));
     if (!file.is_open()) {
         printFileError(filename); // Error message for file failure
-        r.fileOpened = false; 
-        return r;    // If file cannot be opened, return false
+        return r;    // If file cannot be opened, return false (false by default)
     }
+    r.fileOpened = true;
 
-    int lineNo = 0;
+    string line;
+    size_t lineNo = 0;
     while(getline(file, line)) {
         lineNo++;
-        if(Helpers::isBlankOrComment(line)) {
-            continue;
-        }
+        if(Helpers::isBlankOrComment(line)) { continue;} // Skip blank lines or comment lines
 
-        fields = Helpers::splitLine(line , '|');
+        vector<string> fields = Helpers::splitLine(line , '|');
 
         if (fields.size() != expectedFields) {
-            printWarning(filename, lineNo, "Expected N fields but found M");
+            printWarning(filename, lineNo, "Expected " + to_string(expectedFields) +" fields but found " + to_string(fields.size()));
             r.rejected++;
             continue;
         }
 
-        if (fields.empty()) {
+        bool anyEmpty = false;
+        for (const auto& f : fields) {
+            if (f.empty()) { anyEmpty = true; break;}
+        }
+        if (anyEmpty) {
             printWarning(filename, lineNo, "Empty field");
             r.rejected++;
             continue;
         }
+    
 
-        reason = "";
-        if handler(fields, reason) {
-            r.accepted++;
-        } else {
-            printWarning(filename, lineNo, reason);
-            r.rejected++;
-        }
+        string reason;
+        if (handler(fields, reason)) { r.accepted++;}
+        else { printWarning(filename, lineNo, reason); r.rejected++;}
     }
-
-    r.fileOpened = true;
     return r;
 }

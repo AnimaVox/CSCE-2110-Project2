@@ -1,0 +1,10 @@
+# Expected: 3 accepted (F001, F006, F007), 6 rejected
+F001|Main Reading Room|Library|Library
+f001|Case duplicate|Library|Library
+F002|Room|Nowhere|Classroom
+004|Bad Id|Gym|Lab
+F003||Gym|Lab
+F004|Too Few|Gym
+F005|Too|Many|Gym|Lab|Extra
+f006|Lowercase Id|library|Computer Lab
+F007|Room #5|Gym|Classroom

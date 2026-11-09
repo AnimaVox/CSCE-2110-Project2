@@ -13,7 +13,7 @@ using namespace std;
 // One vertex (GRAPH-1)
 struct Building {
     string displayName;     // name as given
-    string matchKey;        // lookup key. TODO: teammate's lower and uppercase ignoring function
+    string matchKey;        // lookup key.
     vector<int> neighbors;  // edge list, in add order (GRAPH-1)
 };
 
@@ -27,14 +27,13 @@ struct BfsVisit {
 // Each building keeps a vector of neighbor indices.
 // Picked over a matrix because BFS reads a neighbor list directly.
 // GRAPH-5: the only graph in the project. All screens read this one.
-// Not here (teammate's work): file loading and name matching to ignore upper and lowercase letters.
 class Graph {
 public:
     // GRAPH-1: add a vertex. Order comes from the caller.
-    bool addBuilding(const string& name);                          // false if blank or duplicate
+    bool addBuilding(const string& name, string& reason);                          // false if blank or duplicate
 
     // GRAPH-1: add an undirected edge. GRAPH-4: counts it once.
-    bool addConnection(const string& nameA, const string& nameB);  // false if unknown, self-loop, or duplicate
+    bool addConnection(const string& nameA, const string& nameB, string& reason);  // false if unknown, self-loop, or duplicate
 
     // BFS-3: -1 means unknown building
     int findBuilding(const string& name) const;        // vertex index, or -1
@@ -59,7 +58,6 @@ public:
     // BFS-3: isolated start returns just itself
     vector<BfsVisit> bfs(int startIndex) const;
 
-    // TODO: call teammate's function. Returns raw for now
     static string normalizeName(const string& raw);
 
 private:

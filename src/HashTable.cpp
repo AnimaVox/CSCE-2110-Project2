@@ -86,5 +86,5 @@ size_t HashTable::getCollisionCount() const{
 
 // HELPERS
 void HashTable::printInfo() const{ // Displays the Capacity, Entries, and Collisons counts of the hash table in one line.
-    cout << "Capacity: " << capacity << ", Entries: " << entryCount << ", Collisions: " << collisionCount << endl;
+    cout << "Hash Table Stats | Capacity: " << capacity << ", Entries: " << entryCount << ", Collisions: " << collisionCount << endl;
 }

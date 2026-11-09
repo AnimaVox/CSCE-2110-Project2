@@ -3,15 +3,14 @@
 // Author: Michael Elsen
 
 #include "../include/Graph.h"
+#include "../include/Helpers.h"
 #include <queue>
 
 using namespace std;
 
 //Name matching
-
-// TODO: call teammate's function here to track names of buildings ignoring upper and lowercase letters
 string Graph::normalizeName(const string& raw) {
-    return raw;  // exact match until teammate's function is available
+    return Helpers::toLower(Helpers::trimWhitespace(raw));
 }
 
 // BFS-3: find a vertex by name
@@ -28,9 +27,10 @@ int Graph::findBuilding(const string& name) const {
 //Vertices and edges
 
 // GRAPH-1: add a vertex
-bool Graph::addBuilding(const string& name) {
+bool Graph::addBuilding(const string& name, string& reason) {
     // Reject if there is nothing to add or it is already stored
-    if (name.empty() || findBuilding(name) != -1) return false;  // blank or duplicate
+    if (name.empty()) { reason = "Empty building name"; return false;} // Blank name
+    if (findBuilding(name) != -1) { reason = "Duplicate building: " + name; return false;}  // Duplicate
 
     // Store name, key, and an empty neighbor list
     buildings.push_back({name, normalizeName(name), {}});
@@ -38,18 +38,21 @@ bool Graph::addBuilding(const string& name) {
 }
 
 // GRAPH-1: add an edge. GRAPH-4: count it once.
-bool Graph::addConnection(const string& nameA, const string& nameB) {
+bool Graph::addConnection(const string& nameA, const string& nameB, string& reason) {
     // Look up both ends
     const int a = findBuilding(nameA);
     const int b = findBuilding(nameB);
     // One or both names are not in the graph
-    if (a == -1 || b == -1) return false;  // unknown building
-    // Same building on both ends
-    if (a == b) return false;              // self-loop
+
+    // unknown buildings
+    if (a == -1) { reason = "Unknown building: " + nameA; return false;} 
+    if (b == -1) { reason = "Unknown building: " + nameB; return false;}  
+    // Same building on both ends, self-loop
+    if (a == b) { reason = "Self-connection"; return false;}
 
     // Skip duplicates so each edge counts once
     for (int existing : buildings[a].neighbors) {  // walk a's current neighbors
-        if (existing == b) return false;  // edge already stored
+        if (existing == b) { reason = "Duplicate connection"; return false;}  // edge already stored
     }
 
     // Undirected: store on both ends

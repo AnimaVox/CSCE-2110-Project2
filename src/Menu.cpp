@@ -1,5 +1,5 @@
 /*
-Here the Menu class is implemented. Fucntions here handle reading user input and prompting them with menu options. User input is validated and an error is returned when necessary. Additionally, there are fucntions to easily print headers and seperator for menu readability.
+Here the Menu class is implemented. Functions here handle reading user input and prompting them with menu options. User input is validated and an error is returned when necessary. Additionally, there are functions to easily print headers and separator for menu readability.
 - Original Author: D'Antae Leathers
 */
 

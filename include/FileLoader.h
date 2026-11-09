@@ -1,6 +1,7 @@
 /*
 FileLoader Loads the four data files, validates each record, and prints warnings and load summaries.
-Author: D'Antae Leathers
+- Original Author: D'Antae Leathers
+Contributor: Dean Foote
 */
 
 #ifndef FILELOADER_H
