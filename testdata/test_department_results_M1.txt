@@ -1,0 +1,51 @@
+M1 Tests
+
+--------------------------------
+File Loading
+--------------------------------
+- Valid records, blank lines, comment lines, and records with too few or too many fields.
+- A missing file
+- Duplicate department names that differ only by capitalization.
+- Duplicate and reversed connections to departments, and unknown department parents.
+
+Test #:         1a
+Description:    Valid Records
+Input:          departments.txt as provided by default.
+Expected:       "CREATED ROOT NODE: University, WITH PARENT: NONE, CREATED NODE: College of Engineering, WITH PARENT: University, etc."
+Actual:         "CREATED ROOT NODE: University, WITH PARENT: NONE, CREATED NODE: College of Engineering, WITH PARENT: University, etc."
+Pass/Fail:      PASS
+
+Test #:         1b
+Description:    Blank Lines, Comment Lines
+Input:          departments.txt but with an extra blank line between the existing entries and the existing comment line.
+Expected:       Correctly ignored, output is the same as Test 1a
+Actual:         Correctly ignored, output is the same as Test 1a
+Pass/Fail:      PASS
+
+Test #:         1c
+Description:    Records with too few or too many fields
+Input:          departments.txt but with added fields that have incorrect formats
+Expected:       "Warning: Line 3 in file data/departments.txt has incorrect format."
+Actual:         "Warning: Line 3 in file data/departments.txt has incorrect format."
+Pass/Fail:      PASS
+
+Test #:         2
+Description:    Missing File
+Input:          department.txt is missing
+Expected:       "Error: Could not open file data/departments.txt | Could not load |data/departments.txt|. Make sure it's in the 'data' folder."
+Actual:         "Error: Could not open file data/departments.txt | Could not load |data/departments.txt|. Make sure it's in the 'data' folder."
+Pass/Fail:      PASS
+
+Test #:         3
+Description:    Duplicate department names that differ only by capitalization
+Input:          department.txt with duplicates with differing capitalization
+Expected:       "Warning: You cannot create a Node that already exists."
+Actual:         Node got created anyway with the differences in capitalization intact as input stated.
+Pass/Fail:      FAIL
+
+Test #:         4
+Description:    Both fields are the same input (e.g. "University|University")
+Input:          department.txt with "University|University" added
+Expected:       "Warning: A Node cannot be it's own parent."
+Actual:         "Warning: A Node cannot be it's own parent."
+Pass/Fail:      PASS

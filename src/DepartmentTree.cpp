@@ -10,7 +10,7 @@ Node* TreeManager::newNode(const string& key, Node* parent) { // Utility functio
     node->parent = parent; // Node knows who to blame for their existance
     if (parent != nullptr) {
         parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existance
-        node->depth = parent->depth++;
+        node->depth = parent->depth+1;
     }
     return node;
 }
