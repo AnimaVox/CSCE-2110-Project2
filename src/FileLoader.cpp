@@ -49,7 +49,7 @@ bool FileLoader::loadDepartments(const string& filename) {
             continue; // We're already done by this point so continue on.
         }
 
-        parent = departments.searchNode(parent, parts[1]);
+        parent = departments.searchNode(root, parts[1]);
 
         Node* current = departments.newNode(parts[0], parent); // For any Node other than the Root
 

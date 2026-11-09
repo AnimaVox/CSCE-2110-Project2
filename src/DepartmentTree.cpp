@@ -9,7 +9,7 @@ Node* TreeManager::newNode(const string& key, Node* parent) { // Utility functio
     node->key = key; // Assign the "key" to the Node
     node->parent = parent; // Node knows who to blame for their existance
     if (parent != nullptr) {
-        parent->children.emplace_back(node); // Make the "Parent" actually aware of their "Child's" existance
+        parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existance
     }
     return node;
 }
@@ -34,7 +34,14 @@ Node* TreeManager::searchNode(Node* node, const string& key) {
 void TreeManager::printAllNodes(Node* n) { // Print every Node in the tree
     if (n == nullptr) return; // Can't print what isn't there...
 
-    cout << "\nNode Element = " << n->key << ", Node's Parent: " << n->parent << endl;
+    cout << "\nNode Element = " << n->key << ", Node's Parent: ";
+    if (n->parent != nullptr) { // Handle the Root Node otherwise trying to dereference nullptr crashes.
+        cout << n->parent->key;
+    } else {
+        cout << "NONE";
+    }
+    cout << endl;
+
     for (Node* children : n->children) {
         printAllNodes(children);
     }
