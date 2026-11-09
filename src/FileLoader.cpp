@@ -10,7 +10,8 @@
 
 // --- LOAD FROM FILES ---
 bool FileLoader::loadDepartments(const string& filename) {
-    Node* root = nullptr; // Create the first root to use for "printAllNodes" later
+    Node* root = nullptr;
+    Node* parent = nullptr;
 
     ifstream file(filename);
     if (!file.is_open()) {
@@ -25,8 +26,7 @@ bool FileLoader::loadDepartments(const string& filename) {
         lineNumber++;
 
         if (!line.empty() && line.back() == '\r') {line.pop_back();} // Remove carriage return if present
-        if (line.empty()) {continue;} // Skip empty lines
-        if (line.find('#' != string::npos)) {cout << "COMMENT LINE IGNORED"; continue;} // Account for any comment lines
+        if (line.empty() || line.front() == '#') {continue;} // Skip empty lines
 
         cout << line << " " << "Line number: " << lineNumber << endl; // FOR TESTING PURPOSES
 
@@ -43,14 +43,17 @@ bool FileLoader::loadDepartments(const string& filename) {
         }
 
         if (parts[1] == "NONE") { // For Root Nodes, as a default parameter exists to account for an utter total lack of "Parents"
-            root = departments.newNode(parts[0]); // Assign the Root Node to the previously create Root nullptr to use for printing later
-            cout << "CREATED ROOT NODE: " << root->key << ", WITH PARENT: " << root->parent << endl; // FOR TESTING PURPOSES
+            root = departments.newNode(parts[0], nullptr); // Assign the Root Node to the previously create Root nullptr to use for printing later
+            parent = root; // Basically copy this information to use for the other nodes later.
+            cout << "\nCREATED ROOT NODE: " << root->key << ", WITH PARENT: " << root->parent << '\n' << endl; // FOR TESTING PURPOSES
             continue; // We're already done by this point so continue on.
         }
 
-        Node* parent = departments.searchNode(parent, parts[1]);
+        parent = departments.searchNode(parent, parts[1]);
 
-        departments.newNode(parts[0], parent); // For any Node other than the Root
+        Node* current = departments.newNode(parts[0], parent); // For any Node other than the Root
+
+        cout << "\nCREATED NODE: " << current->key << ", WITH PARENT: " << current->parent->key << '\n' << endl;
     }
 
     departments.printAllNodes(root); // Once loaded, print the entire tree

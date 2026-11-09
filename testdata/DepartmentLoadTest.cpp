@@ -2,8 +2,6 @@
  * Testing for Department Tree and file loading by: Dean Foote
  */
 
-
-#include "../include/DepartmentTree.h"
 #include "../include/FileLoader.h"
 
 #include <iostream>
@@ -22,7 +20,6 @@ void resetInput() {
 
 int main() {
     FileLoader fileLoader;
-    TreeManager tree;
 
     // --- SETUP FILE LOADING ---
     cout << "TESTING FILE LOADING FOR DEPARTMENTS\n" << endl;;
@@ -33,5 +30,5 @@ int main() {
         return 1; // File didn't load correctly. Stop here!
     }
 
-    cout << "\nLoaded the department tree successfully!" << endl;
+    cout << "\nProgram finished successfully" << endl;
 }

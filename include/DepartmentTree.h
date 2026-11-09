@@ -15,7 +15,7 @@ using namespace std;
 
 struct Node {
     string key; // The "Element"
-    Node* parent = nullptr; // Pointer to the Node's "Parent"
+    Node* parent; // Pointer to the Node's "Parent"
     vector<Node*> children; // A vector containing pointers for this Node's children
     // NOTE: Only includes immediate children, not every decendant
 };
@@ -25,8 +25,8 @@ class TreeManager {
         Helpers hlp; // Instance to allow for searching nodes, ignoring capitalization
 
     public:
-        Node* newNode(const string& key, Node* parent = nullptr);
-        Node* searchNode(Node* search, const string& key);
+        Node* newNode(const string& key, Node* parent);
+        Node* searchNode(Node* node, const string& key);
         void printAllNodes(Node* n);
 };
 
