@@ -16,6 +16,7 @@ using namespace std;
 struct Node {
     string key; // The "Element"
     Node* parent = nullptr; // Pointer to the Node's "Parent"
+    int depth = 0;
     vector<Node*> children; // A vector containing pointers for this Node's children
     // NOTE: Only includes immediate children, not every decendant
 };

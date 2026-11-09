@@ -10,6 +10,7 @@ Node* TreeManager::newNode(const string& key, Node* parent) { // Utility functio
     node->parent = parent; // Node knows who to blame for their existance
     if (parent != nullptr) {
         parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existance
+        node->depth = parent->depth++;
     }
     return node;
 }
@@ -17,11 +18,13 @@ Node* TreeManager::newNode(const string& key, Node* parent) { // Utility functio
 Node* TreeManager::searchNode(Node* node, const string& key) {
     if (node == nullptr) return nullptr; // Just in case...
 
-    // if(hlp.equalsIgnoreCase(searchNoCap, keyNoCap)) return search; // Capitilization shouldn't matter
+    if(hlp.equalsIgnoreCase(node->key, key)) return node; // Capitilization shouldn't matter
 
+    /* // Fixed the tree so now the equalsIgnoreCase works now, I'll keep this around just in case...
     if (node->key == key) {
         return node;
     }
+    */
 
     for (Node* children : node->children) {
         if (Node* found = searchNode(children, key)) {
@@ -34,8 +37,8 @@ Node* TreeManager::searchNode(Node* node, const string& key) {
 void TreeManager::printAllNodes(Node* n) { // Print every Node in the tree
     if (n == nullptr) return; // Can't print what isn't there...
 
-    cout << "\nNode Element = " << n->key << ", Node's Parent: ";
-    if (n->parent != nullptr) { // Handle the Root Node otherwise trying to dereference nullptr crashes.
+    cout << "\nNode's Element = " << n->key << ", Node's Depth: " << n->depth << ", Node's Parent: ";
+    if (n->parent != nullptr) { // Handle the Root Node, otherwise trying to dereference nullptr crashes.
         cout << n->parent->key;
     } else {
         cout << "NONE";
