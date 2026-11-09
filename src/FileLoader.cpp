@@ -45,7 +45,7 @@ bool FileLoader::loadDepartments(const string& filename) {
         if (parts[1] == "NONE") { // For Root Nodes, as a default parameter exists to account for an utter total lack of "Parents"
             root = departments.newNode(parts[0], nullptr); // Assign the Root Node to the previously create Root nullptr to use for printing later
             parent = root; // Basically copy this information to use for the other nodes later.
-            cout << "\nCREATED ROOT NODE: " << root->key << ", WITH PARENT: " << root->parent << '\n' << endl; // FOR TESTING PURPOSES
+            cout << "\nCREATED ROOT NODE: " << root->key << ", WITH PARENT: NONE" << '\n' << endl; // FOR TESTING PURPOSES
             continue; // We're already done by this point so continue on.
         }
 
