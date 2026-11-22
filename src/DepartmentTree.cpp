@@ -1,5 +1,6 @@
 /*
  * Original Author: Dean Foote
+ * Editor : D'Antae Leathers
  */
 
 #include "../include/DepartmentTree.h"
@@ -19,7 +20,7 @@ Node* DepartmentTree::newNode(const string& key, Node* parent) { // Utility func
     node->key = key; // Assign the "key" to the Node
     node->parent = parent; // Node knows who to blame for their existance
     if (parent != nullptr) {
-        parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existance
+        parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existence
         node->depth = parent->depth + 1;
     }
     nodeCount++; // Increment node count
@@ -53,7 +54,7 @@ bool DepartmentTree::addRoot(const string& name, string& reason) { // Adds a roo
 
 bool DepartmentTree::addDepartment(const string& name, const string& parent, string& reason) { // Adds a department to the tree
     if (name.empty()) { reason = "Empty department name"; return false;}
-    
+
     // If there is no root, the new department will have to be designated a parent through the 'parent' paremeter
     if (isEmpty()) { // Check if the tree is empty i.e no root
         if (!Helpers::equalsIgnoreCase(parent, "NONE")) { // When there is no root, "NONE" must be used as the parent of the soon-to-be root.
@@ -105,7 +106,7 @@ void DepartmentTree::collectPreorder(const Node* n, vector<string>& out) const {
 
 void DepartmentTree::preorder() const { // Prints the preorder traversal given by collectPreorder
     if (isEmpty()) { cout << "No departments are loaded." << endl; return;}
-    
+
     vector<string> names;
     collectPreorder(root, names);
 
