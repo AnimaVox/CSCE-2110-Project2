@@ -97,10 +97,10 @@ void DepartmentTree::printIndented(const Node* n) const { // Makes a neat indent
     }
 }
 
-void DepartmentTree::collectPreorder(const Node* n, vector<string>& out) const { // Adds nodes to the preorder sequence accordingly
+void DepartmentTree::collectPreOrder(const Node* n, vector<string>& out) const { // Adds nodes to the preorder sequence accordingly
     out.push_back(n->key); // Add parent
     for (const Node* child : n->children) { // Add their children
-        collectPreorder(child, out);
+        collectPreOrder(child, out);
     }
 }
 
@@ -108,11 +108,72 @@ void DepartmentTree::preorder() const { // Prints the preorder traversal given b
     if (isEmpty()) { cout << "No departments are loaded." << endl; return;}
 
     vector<string> names;
-    collectPreorder(root, names);
+    collectPreOrder(root, names);
 
     for (size_t i = 0; i < names.size(); i++) {
         if (i > 0) { cout << ", ";}
         cout << names[i];
     }
     cout << endl;
+}
+
+void DepartmentTree::collectPostOrder(const Node *n, vector<string> &out) const {
+    for (const Node* child : n->children) { // Add their children
+        collectPostOrder(child, out);
+    }
+    out.push_back(n->key); // Add parent
+}
+
+void DepartmentTree::postorder() const {
+    if (isEmpty()) { cout << "No departments are loaded." << endl; return;}
+
+    vector<string> names;
+    collectPostOrder(root, names);
+
+    for (size_t i = 0; i < names.size(); i++) {
+        if (i > 0) { cout << ", ";}
+        cout << names[i];
+    }
+    cout << endl;
+}
+
+void DepartmentTree::collectLevelOrder(const Node *n, queue<const Node*> &q, vector<string> &out) const {
+    q.push(n); // Put root node (and it's "key") in the queue
+
+    while (!q.empty()) {
+        const Node* current = q.front();
+        q.pop();
+        out.push_back(current->key);
+
+        for (const Node* child : current->children) {
+            q.push(child);
+        }
+    }
+}
+
+void DepartmentTree::levelorder() const {
+    if (isEmpty()) { cout << "No departments are loaded." << endl; return;}
+
+    queue<const Node*> q;
+    vector<string> names;
+    collectLevelOrder(root, q, names);
+
+    for (size_t i = 0; i < names.size(); i++) {
+        if (i > 0) { cout << ", ";}
+        cout << names[i];
+    }
+    cout << endl;
+}
+
+void DepartmentTree::departmentStats() const {
+    cout << "== DEPARTMENT STATS ==" << endl;
+
+    if (root == nullptr) { // Check if a tree exists at all
+        cout << "Total Departments: 0\nLeafs: 0\nHeight: N/A\n" << endl;
+        return; // We've finished at this point
+    }
+// If a tree does exist then display the actual statistics
+    cout << "Total Departments: " << departmentTotal << '\n';
+    cout << "Leafs: " << leafCount << '\n';
+    cout << "Height: " << height << endl;
 }

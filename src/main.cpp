@@ -86,6 +86,15 @@ int main(int argc, char* argv[]) {
             case MenuOptions::PREORDER:
                 dt.preorder();
                 break;
+            case MenuOptions::POSTORDER:
+                dt.postorder();
+                break;
+            case MenuOptions::LEVEL_ORDER:
+                dt.levelorder();
+                break;
+            case MenuOptions::DEPARTMENT_STATS:
+                dt.departmentStats();
+                break;
             case MenuOptions::INVALID:
                 break;
             case MenuOptions::EXIT:
