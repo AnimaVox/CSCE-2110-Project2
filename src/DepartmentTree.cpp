@@ -13,6 +13,11 @@ void DepartmentTree::destroy(Node* n) { // Makes sure to destory children before
     if (n == nullptr) { return;}
     for (Node* child : n->children) { destroy(child);} // Destroy children first
     delete n; // Destroy the node afterwards
+
+    // Zero out the data, just in case it doesn't already
+    departmentTotal = 0;
+    leafCount = 0;
+    height = 0;
 }
 
 Node* DepartmentTree::newNode(const string& key, Node* parent) { // Utility function to make creating new Nodes easier
@@ -22,8 +27,12 @@ Node* DepartmentTree::newNode(const string& key, Node* parent) { // Utility func
     if (parent != nullptr) {
         parent->children.push_back(node); // Make the "Parent" actually aware of their "Child's" existence
         node->depth = parent->depth + 1;
+
+        if (node->depth > height) {
+            height = node->depth; // New deepest depth node on the block, so we update the tree's height
+        }
     }
-    nodeCount++; // Increment node count
+    departmentTotal++; // Increment department total
     return node;
 }
 
@@ -140,7 +149,7 @@ void DepartmentTree::postorder() const {
 void DepartmentTree::collectLevelOrder(const Node *n, queue<const Node*> &q, vector<string> &out) const {
     q.push(n); // Put root node (and it's "key") in the queue
 
-    while (!q.empty()) {
+    while (!q.empty()) { // Go through the tree processing the data with BFS
         const Node* current = q.front();
         q.pop();
         out.push_back(current->key);
@@ -165,14 +174,26 @@ void DepartmentTree::levelorder() const {
     cout << endl;
 }
 
+void DepartmentTree::collectLeafData(const Node* n, size_t leafCount) const {
+    if (n->children.empty()) { leafCount++; } // If the current node has no children, it's a leaf!
+
+    for (const Node* child : n->children) { // Search for more children nodes
+        collectLeafData(child, leafCount); // Continue down the tree
+    }
+}
+
 void DepartmentTree::departmentStats() const {
     cout << "== DEPARTMENT STATS ==" << endl;
 
     if (root == nullptr) { // Check if a tree exists at all
+        cout << "No departments are loaded." << endl;
         cout << "Total Departments: 0\nLeafs: 0\nHeight: N/A\n" << endl;
         return; // We've finished at this point
     }
-// If a tree does exist then display the actual statistics
+
+    collectLeafData(root, leafCount);
+
+// Display the actual statistics
     cout << "Total Departments: " << departmentTotal << '\n';
     cout << "Leafs: " << leafCount << '\n';
     cout << "Height: " << height << endl;

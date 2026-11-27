@@ -18,7 +18,7 @@ using namespace std;
 struct Node {
     string key; // The "Element"
     Node* parent = nullptr; // Pointer to the Node's "Parent"
-    int depth = 0;
+    size_t depth = 0; // NOTE: Changed from "int" to "size_t" because this should never be negative.
     vector<Node*> children; // A vector containing pointers for this Node's children
     // NOTE: Only includes immediate children, not every decendant
 };
@@ -27,20 +27,20 @@ class DepartmentTree {
     private:
         Node* root = nullptr;
 
-        size_t nodeCount = 0; // Keep track of the number of nodes
         size_t departmentTotal = 0; // Keep track of existing departments
         size_t leafCount = 0; // Keep track of leaf nodes
         size_t height = 0; // Height of the tree (NOTE: Should show as "N/A" for empty trees, "0" for trees with only a root node)
 
         Node* newNode(const string& key, Node* parent); // Create a new node
+        Node* searchNode(Node* node, const string& key) const; // Searches for a node given name
 
         void destroy(Node* n); // Destroy nodes, making sure to destroy children before parents.
         void printIndented(const Node* n) const; // Prints the children of a node in a nice indented format
         void collectPreOrder(const Node* n, vector<string>& out) const; // Adds nodes to the preorder sequence recursively
         void collectPostOrder(const Node* n, vector<string>& out) const; // Adds nodes to the postorder sequence recursively
         void collectLevelOrder(const Node* n, queue<const Node*>& q, vector<string>& out) const; // Adds nodes to the levelorder sequence recursively
+        void collectLeafData(const Node* n, size_t leafCount) const; // Search for leafs to display with department tree data
 
-        Node* searchNode(Node* node, const string& key) const; // Searches for a node given name
 
     public:
         ~DepartmentTree(); // Destructor
